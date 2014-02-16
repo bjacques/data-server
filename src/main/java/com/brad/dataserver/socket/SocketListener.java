@@ -61,7 +61,7 @@ public class SocketListener {
 			                    e.printStackTrace();
 			                }
 			                finally {
-			                	logger.info("Cleaning up socket listener");
+			                	logger.info("Close client connection");
 			                	closeSocket(conn);
 			                }
 			            }
@@ -70,9 +70,6 @@ public class SocketListener {
 				catch (IOException e) {
 					logger.error("Failed to accept connection");
 					e.printStackTrace();
-				}
-				finally {
-					closeSocket(connection);
 				}
 			}
 		}
