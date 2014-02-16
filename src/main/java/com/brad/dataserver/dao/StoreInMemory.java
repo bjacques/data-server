@@ -20,7 +20,7 @@ public class StoreInMemory implements Store {
 
 	@Override
 	public String readLastValue() {
-		String value = store.get(store.size()-1);
+		String value = store.size() > 0 ? store.get(store.size()-1) : null;
 		logger.info("Read: " + value);
 		return value;
 	}

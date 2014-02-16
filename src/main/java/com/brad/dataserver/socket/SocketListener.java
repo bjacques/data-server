@@ -11,6 +11,10 @@ import org.apache.log4j.Logger;
 
 import com.brad.dataserver.consumer.Consumer;
 
+/**
+ * Creates a server socket to listen for client connections
+ *
+ */
 public class SocketListener {
 	
 	private static final Logger logger = Logger.getLogger(SocketListener.class);
@@ -104,8 +108,8 @@ public class SocketListener {
 		this.consumer = consumer;
 	}
 
-	public void shutdown() {
-		// TODO Auto-generated method stub
-		
+	public void stop() {
+		isActive = false;
+		closeServerSocket(serverSocket);
 	}
 }

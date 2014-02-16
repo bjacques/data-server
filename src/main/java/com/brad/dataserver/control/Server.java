@@ -16,9 +16,8 @@ public class Server {
 		sl.setConsumer(consumer);
 		sl.start();
 		
-		Thread.sleep(3000);
-		
-		sl.shutdown();
-		System.out.println("Shutdown server");
+//		Thread.sleep(3000);		
+//		sl.shutdown();
+//		System.out.println("Shutdown server");
 	}
 }

@@ -12,6 +12,11 @@ import org.apache.log4j.Logger;
 
 import com.brad.dataserver.consumer.Consumer;
 
+/**
+ * Processes a single request from a client socket connection
+ * Closes the socket before terminating
+ *
+ */
 public class SocketConnectionThread implements Runnable {
 	
 	private static final Logger logger = Logger.getLogger(SocketConnectionThread.class);
@@ -41,8 +46,17 @@ public class SocketConnectionThread implements Runnable {
             e.printStackTrace();
         }
         finally {
-        	logger.info("Cleaning up socket listener");
-        	closeSocket(connection);
+        	closeConnection(connection);
         }
     }
+	
+	private void closeConnection(Socket connection) {
+    	logger.debug("Closing socket connection");
+		try {
+			if (connection != null) connection.close();
+		}
+		catch(Exception e) {
+			logger.error("Failed to close connection"); 
+		}
+	}
 }
