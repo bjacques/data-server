@@ -3,6 +3,8 @@ package com.brad.dataserver.integration;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import org.hamcrest.Matchers;
+import org.hamcrest.core.IsNull;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,12 +36,16 @@ public class ClientWithMemoryStoreIntegrationTest {
 	}
 
 	@Test
-	public void storeValueAndRespondOk() throws Exception {
+	public void receiveRequestAndRespondOk() throws Exception {
 		String input = "my bad pants smell";
 		String response = client.send(input);
-//		Thread.sleep(500);
-		System.out.println(store);
 		assertThat(store.readLastValue(), is(input));
+		assertThat(response, is(SocketListener.RESPONSE_OK));
+	}
+	
+	@Test
+	public void receiveNullRequestAndRespondOk() throws Exception {
+		String response = client.send(null);
 		assertThat(response, is(SocketListener.RESPONSE_OK));
 	}
 
