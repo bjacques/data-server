@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 import org.apache.log4j.Logger;
 
@@ -71,8 +72,10 @@ public class SocketListener {
 			            }
 					}).start();
 				}
+				catch (SocketException se) {
+					logger.error(se.getMessage());
+				}
 				catch (IOException e) {
-					logger.error("Failed to accept connection");
 					e.printStackTrace();
 				}
 			}
