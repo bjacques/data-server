@@ -14,15 +14,22 @@ public class StoreInMemory implements Store {
 
 	@Override
 	public void store(String value) {
-		logger.info("Add: " + value);
-		store.add(value);
+		logger.debug("Add: " + value);
+		if (value != null 
+				&& !store.contains(value)) {
+			store.add(value);
+		}
 	}
 
 	@Override
 	public String readLastValue() {
 		String value = store.size() > 0 ? store.get(store.size()-1) : null;
-		logger.info("Read: " + value);
+		logger.debug("Read: " + value);
 		return value;
+	}
+	
+	public int size() {
+		return store.size();
 	}
 	
 	@Override

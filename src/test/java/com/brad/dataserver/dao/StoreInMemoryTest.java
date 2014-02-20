@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,7 +21,6 @@ public class StoreInMemoryTest {
 	public void setUp() throws IOException {
 		memoryStore = new StoreInMemory();
 	}
-	
 
 	@Test
 	public void valueStoredCanBeRetrieved() throws Exception {
@@ -29,5 +29,31 @@ public class StoreInMemoryTest {
 		memoryStore.store(lastInputValue);
 		String lastStoredValue = memoryStore.readLastValue();
 		assertThat(lastStoredValue, is(lastInputValue));
+	}
+	
+	@Test
+	public void nullValueIsNotStored() {
+		int initialSize = memoryStore.size();
+		memoryStore.store(null);
+		assertThat(memoryStore.size(),is(initialSize));
+	}
+	
+	@Test
+	public void duplicatesAreDiscardedAndSizeRemainsTheSame() {
+		int initialSize = memoryStore.size();
+		String A = "A";
+		memoryStore.store(A);
+		assertThat(memoryStore.size(),is(initialSize+1));
+		memoryStore.store(A);
+		assertThat(memoryStore.size(),is(initialSize+1));
+	}
+	
+	@Test
+	public void sizeIncreasesWhenDifferentValuesAdded() {
+		int initialSize = memoryStore.size();
+		memoryStore.store("A");
+		assertThat(memoryStore.size(),is(initialSize+1));
+		memoryStore.store("B");
+		assertThat(memoryStore.size(),is(initialSize+2));
 	}
 }

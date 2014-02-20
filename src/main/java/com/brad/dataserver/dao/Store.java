@@ -7,4 +7,5 @@ public interface Store {
 
 	String readLastValue();
 
+	int size();
 }
