@@ -24,4 +24,9 @@ public class StoreInMemory implements Store {
 		logger.info("Read: " + value);
 		return value;
 	}
+	
+	@Override
+	public String toString() {
+		return store.toString();
+	}
 }

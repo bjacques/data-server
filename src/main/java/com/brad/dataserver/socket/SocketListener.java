@@ -14,6 +14,9 @@ import com.brad.dataserver.consumer.Consumer;
 
 /**
  * Creates a server socket to listen for client connections
+ * Each request spawns a new thread to handle the request. Should the server
+ * be heavily utilised it will potentially run out of resources and grind
+ * to a halt.
  *
  */
 public class SocketListener {
@@ -58,7 +61,7 @@ public class SocketListener {
 			                	
 			                	consumer.consume(value);
 			                	
-			                	PrintWriter pw = new PrintWriter(conn.getOutputStream());
+			                	PrintWriter pw = new PrintWriter(conn.getOutputStream(), true);
 			                	pw.println(RESPONSE_OK);
 			                }
 			                catch (IOException e) {
