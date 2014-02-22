@@ -45,9 +45,8 @@ public class SocketListener {
 				
 				try {
 					logger.info(String.format("Waiting for client to connect on port %d ...", port));
-					connection = serverSocket.accept();
 					
-					final Socket conn = connection;
+					final Socket conn = serverSocket.accept();
 					
 					logger.debug("Client connected");
 					
@@ -57,12 +56,14 @@ public class SocketListener {
 			                try {
 			                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			                	String value = br.readLine();
-			                	logger.info(String.format("Rx: %s", value));
+			                	logger.debug(String.format("Rcv [%s]: %s", Thread.currentThread().getId(), value));
 			                	
 			                	consumer.consume(value);
 			                	
 			                	PrintWriter pw = new PrintWriter(conn.getOutputStream(), true);
-			                	pw.println(RESPONSE_OK);
+			                	String response = RESPONSE_OK;
+			                	pw.println(response);
+			                	logger.debug(String.format("Rsp [%s]: %s ", Thread.currentThread().getId(), response));
 			                }
 			                catch (IOException e) {
 			                    logger.error("Unable to process client request");
