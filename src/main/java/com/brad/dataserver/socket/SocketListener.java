@@ -40,13 +40,10 @@ public class SocketListener {
 			serverSocket = new ServerSocket(port);
 			
 			while(isActive) {
-				
-				Socket connection = null;
-				
 				try {
 					logger.info(String.format("Waiting for client to connect on port %d ...", port));
 					
-					final Socket conn = serverSocket.accept();
+					final Socket connection = serverSocket.accept();
 					
 					logger.debug("Client connected");
 					
@@ -54,13 +51,13 @@ public class SocketListener {
 						@Override
 			            public void run() {
 			                try {
-			                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			                    BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			                	String value = br.readLine();
 			                	logger.debug(String.format("Rcv [%s]: %s", Thread.currentThread().getId(), value));
 			                	
 			                	consumer.consume(value);
 			                	
-			                	PrintWriter pw = new PrintWriter(conn.getOutputStream(), true);
+			                	PrintWriter pw = new PrintWriter(connection.getOutputStream(), true);
 			                	String response = RESPONSE_OK;
 			                	pw.println(response);
 			                	logger.debug(String.format("Rsp [%s]: %s ", Thread.currentThread().getId(), response));
@@ -71,7 +68,7 @@ public class SocketListener {
 			                }
 			                finally {
 			                	logger.info("Close client connection");
-			                	closeSocket(conn);
+			                	closeSocket(connection);
 			                }
 			            }
 					}).start();
@@ -89,7 +86,7 @@ public class SocketListener {
 			e.printStackTrace();
 		}
 		finally {
-			closeServerSocket(serverSocket);
+			closeServerSocket();
 		}
 	}
 
@@ -102,7 +99,7 @@ public class SocketListener {
 		}
 	}
 
-	private void closeServerSocket(ServerSocket serverSocket2) {
+	private void closeServerSocket() {
 		try {
 			if (serverSocket != null) serverSocket.close();
 		}
@@ -117,6 +114,6 @@ public class SocketListener {
 
 	public void stop() {
 		isActive = false;
-		closeServerSocket(serverSocket);
+		closeServerSocket();
 	}
 }
