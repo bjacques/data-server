@@ -3,8 +3,6 @@ package com.brad.dataserver.integration;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-import org.hamcrest.Matchers;
-import org.hamcrest.core.IsNull;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,6 +46,7 @@ public class ClientWithMemoryStoreIntegrationTest {
 		String response = client.send(null);
 		assertThat(response, is(SocketListener.RESPONSE_OK));
 	}
+	
 
 	/**
 	 * test will block on serverSocket.accept() unless we start server on a separate thread
